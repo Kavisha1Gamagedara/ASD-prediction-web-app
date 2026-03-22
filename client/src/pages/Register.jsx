@@ -3,8 +3,11 @@ import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Mail, Lock, User, UserPlus, AlertCircle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import ASDLoginImg from '../assets/autism.jpg';
 
 const Register = () => {
+    const { t } = useTranslation();
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -23,11 +26,11 @@ const Register = () => {
 
     const validateForm = () => {
         if (formData.password.length < 6) {
-            setError('Password must be at least 6 characters long');
+            setError(t('register.password_short') || 'Password must be at least 6 characters long');
             return false;
         }
         if (formData.password !== formData.confirmPassword) {
-            setError('Passwords do not match');
+            setError(t('register.password_mismatch') || 'Passwords do not match');
             return false;
         }
         return true;
@@ -56,16 +59,31 @@ const Register = () => {
     };
 
     return (
-        <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
+        <div style={{ position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem', overflow: 'hidden' }}>
+            {/* Background Image with reduced opacity */}
+            <div 
+                style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    backgroundImage: `linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.7)), url(${ASDLoginImg})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    opacity: 0.6,
+                    zIndex: -1
+                }}
+            />
             <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
                 className="glass-card"
-                style={{ width: '100%', maxWidth: '550px', padding: '3rem' }}
+                style={{ width: '100%', maxWidth: '550px', padding: '3rem', background: 'rgba(30, 41, 59, 0.15)', border: '1px solid rgba(255, 255, 255, 0.1)' }}
             >
                 <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-                    <h2 style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>Create Account</h2>
-                    <p style={{ color: '#94a3b8' }}>Join our community for early ASD support</p>
+                    <h2 style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>{t('register.title')}</h2>
+                    <p style={{ color: '#94a3b8' }}>{t('register.subtitle')}</p>
                 </div>
 
                 {error && (
@@ -77,7 +95,7 @@ const Register = () => {
                 <form onSubmit={handleSubmit}>
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
                         <div style={{ marginBottom: '1.5rem' }}>
-                            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: '#cbd5e1' }}>First Name</label>
+                            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: '#cbd5e1' }}>{t('register.first_name')}</label>
                             <div style={{ position: 'relative' }}>
                                 <User style={{ position: 'absolute', left: '12px', top: '14px', color: '#64748b' }} size={18} />
                                 <input
@@ -91,7 +109,7 @@ const Register = () => {
                             </div>
                         </div>
                         <div style={{ marginBottom: '1.5rem' }}>
-                            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: '#cbd5e1' }}>Last Name</label>
+                            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: '#cbd5e1' }}>{t('register.last_name')}</label>
                             <div style={{ position: 'relative' }}>
                                 <User style={{ position: 'absolute', left: '12px', top: '14px', color: '#64748b' }} size={18} />
                                 <input
@@ -107,7 +125,7 @@ const Register = () => {
                     </div>
 
                     <div style={{ marginBottom: '1.5rem' }}>
-                        <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: '#cbd5e1' }}>Email Address</label>
+                        <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: '#cbd5e1' }}>{t('register.email')}</label>
                         <div style={{ position: 'relative' }}>
                             <Mail style={{ position: 'absolute', left: '12px', top: '14px', color: '#64748b' }} size={18} />
                             <input
@@ -122,7 +140,7 @@ const Register = () => {
                     </div>
 
                     <div style={{ marginBottom: '1.5rem' }}>
-                        <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: '#cbd5e1' }}>Password</label>
+                        <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: '#cbd5e1' }}>{t('register.password')}</label>
                         <div style={{ position: 'relative' }}>
                             <Lock style={{ position: 'absolute', left: '12px', top: '14px', color: '#64748b' }} size={18} />
                             <input
@@ -137,7 +155,7 @@ const Register = () => {
                     </div>
 
                     <div style={{ marginBottom: '2rem' }}>
-                        <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: '#cbd5e1' }}>Confirm Password</label>
+                        <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: '#cbd5e1' }}>{t('register.confirm_password')}</label>
                         <div style={{ position: 'relative' }}>
                             <Lock style={{ position: 'absolute', left: '12px', top: '14px', color: '#64748b' }} size={18} />
                             <input
@@ -157,12 +175,12 @@ const Register = () => {
                         style={{ width: '100%', padding: '14px' }}
                         disabled={loading}
                     >
-                        {loading ? 'Creating account...' : <><UserPlus size={20} /> Register</>}
+                        {loading ? t('register.creating') : <><UserPlus size={20} /> {t('register.btn')}</>}
                     </button>
                 </form>
 
                 <p style={{ textAlign: 'center', marginTop: '2rem', color: '#94a3b8' }}>
-                    Already have an account? <Link to="/login" style={{ color: '#4f46e5', textDecoration: 'none', fontWeight: 600 }}>Login</Link>
+                    {t('register.have_account')} <Link to="/login" style={{ color: '#4f46e5', textDecoration: 'none', fontWeight: 600 }}>{t('register.login_link')}</Link>
                 </p>
             </motion.div>
         </div>

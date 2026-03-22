@@ -2,12 +2,16 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { LogOut, Layout, Activity, User, Settings, Bell, Save, Key, UserCircle } from 'lucide-react';
+import { LogOut, Layout, Activity, User, Settings, Bell, Save, Key, UserCircle, ChevronRight, ClipboardCheck, ArrowLeft, CheckCircle2, Languages } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import axios from 'axios';
+import BasicScreeningForm from '../components/screening/BasicScreeningForm';
+import AdvancedScreeningForm from '../components/screening/AdvancedScreeningForm';
 
 const Dashboard = () => {
     const { user, logout, updateUser } = useAuth();
     const navigate = useNavigate();
+    const { t, i18n } = useTranslation();
     const [activeTab, setActiveTab] = useState('Overview');
     const [profileData, setProfileData] = useState({
         firstName: user?.firstName || '',
@@ -21,8 +25,14 @@ const Dashboard = () => {
     });
     const [status, setStatus] = useState({ type: '', msg: '' });
     const [loading, setLoading] = useState(false);
+    const [assessmentStep, setAssessmentStep] = useState('prompt'); // prompt, basic, advanced
 
     const API_URL = 'http://localhost:5000/api/auth';
+
+    const toggleLanguage = () => {
+        const newLang = i18n.language === 'en' ? 'si' : 'en';
+        i18n.changeLanguage(newLang);
+    };
 
     const handleProfileUpdate = async (e) => {
         e.preventDefault();
@@ -34,9 +44,9 @@ const Dashboard = () => {
                 headers: { Authorization: `Bearer ${token}` }
             });
             updateUser(res.data.user);
-            setStatus({ type: 'success', msg: 'Profile updated successfully!' });
+            setStatus({ type: 'success', msg: t('dashboard.profile_success') });
         } catch (err) {
-            setStatus({ type: 'error', msg: err.response?.data?.message || 'Update failed' });
+            setStatus({ type: 'error', msg: err.response?.data?.message || t('dashboard.profile_error') });
         } finally {
             setLoading(false);
         }
@@ -45,7 +55,7 @@ const Dashboard = () => {
     const handlePasswordChange = async (e) => {
         e.preventDefault();
         if (passwords.newPassword !== passwords.confirmPassword) {
-            return setStatus({ type: 'error', msg: 'Passwords do not match' });
+            return setStatus({ type: 'error', msg: t('register.password_mismatch') });
         }
         setLoading(true);
         setStatus({ type: '', msg: '' });
@@ -57,10 +67,10 @@ const Dashboard = () => {
             }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            setStatus({ type: 'success', msg: 'Password changed successfully!' });
+            setStatus({ type: 'success', msg: t('dashboard.password_success') });
             setPasswords({ currentPassword: '', newPassword: '', confirmPassword: '' });
         } catch (err) {
-            setStatus({ type: 'error', msg: err.response?.data?.message || 'Password change failed' });
+            setStatus({ type: 'error', msg: err.response?.data?.message || t('dashboard.password_error') });
         } finally {
             setLoading(false);
         }
@@ -76,8 +86,8 @@ const Dashboard = () => {
                                 <UserCircle size={32} color="white" />
                             </div>
                             <div>
-                                <h2 style={{ marginBottom: '4px' }}>Profile Information</h2>
-                                <p style={{ color: '#94a3b8' }}>Update your personal details</p>
+                                <h2 style={{ marginBottom: '4px' }}>{t('dashboard.profile_info')}</h2>
+                                <p style={{ color: '#94a3b8' }}>{t('dashboard.profile_sub')}</p>
                             </div>
                         </div>
 
@@ -96,7 +106,7 @@ const Dashboard = () => {
                         <form onSubmit={handleProfileUpdate}>
                             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
                                 <div>
-                                    <label style={{ display: 'block', marginBottom: '8px', fontSize: '0.9rem', color: '#cbd5e1' }}>First Name</label>
+                                    <label style={{ display: 'block', marginBottom: '8px', fontSize: '0.9rem', color: '#cbd5e1' }}>{t('register.first_name')}</label>
                                     <input
                                         type="text"
                                         value={profileData.firstName}
@@ -105,7 +115,7 @@ const Dashboard = () => {
                                     />
                                 </div>
                                 <div>
-                                    <label style={{ display: 'block', marginBottom: '8px', fontSize: '0.9rem', color: '#cbd5e1' }}>Last Name</label>
+                                    <label style={{ display: 'block', marginBottom: '8px', fontSize: '0.9rem', color: '#cbd5e1' }}>{t('register.last_name')}</label>
                                     <input
                                         type="text"
                                         value={profileData.lastName}
@@ -115,7 +125,7 @@ const Dashboard = () => {
                                 </div>
                             </div>
                             <div style={{ marginBottom: '2rem' }}>
-                                <label style={{ display: 'block', marginBottom: '8px', fontSize: '0.9rem', color: '#cbd5e1' }}>Email Address</label>
+                                <label style={{ display: 'block', marginBottom: '8px', fontSize: '0.9rem', color: '#cbd5e1' }}>{t('register.email')}</label>
                                 <input
                                     type="email"
                                     value={profileData.email}
@@ -124,7 +134,7 @@ const Dashboard = () => {
                                 />
                             </div>
                             <button type="submit" className="btn-primary" disabled={loading} style={{ width: 'auto', padding: '12px 24px' }}>
-                                {loading ? 'Saving...' : <><Save size={18} /> Save Changes</>}
+                                {loading ? t('dashboard.saving') : <><Save size={18} /> {t('dashboard.save')}</>}
                             </button>
                         </form>
                     </motion.div>
@@ -137,8 +147,8 @@ const Dashboard = () => {
                                 <Key size={32} color="#4f46e5" />
                             </div>
                             <div>
-                                <h2 style={{ marginBottom: '4px' }}>Security</h2>
-                                <p style={{ color: '#94a3b8' }}>Manage your account security</p>
+                                <h2 style={{ marginBottom: '4px' }}>{t('dashboard.security')}</h2>
+                                <p style={{ color: '#94a3b8' }}>{t('dashboard.security_sub')}</p>
                             </div>
                         </div>
 
@@ -156,7 +166,7 @@ const Dashboard = () => {
 
                         <form onSubmit={handlePasswordChange}>
                             <div style={{ marginBottom: '1.5rem' }}>
-                                <label style={{ display: 'block', marginBottom: '8px', fontSize: '0.9rem', color: '#cbd5e1' }}>Current Password</label>
+                                <label style={{ display: 'block', marginBottom: '8px', fontSize: '0.9rem', color: '#cbd5e1' }}>{t('dashboard.curr_pass')}</label>
                                 <input
                                     type="password"
                                     value={passwords.currentPassword}
@@ -165,7 +175,7 @@ const Dashboard = () => {
                                 />
                             </div>
                             <div style={{ marginBottom: '1.5rem' }}>
-                                <label style={{ display: 'block', marginBottom: '8px', fontSize: '0.9rem', color: '#cbd5e1' }}>New Password</label>
+                                <label style={{ display: 'block', marginBottom: '8px', fontSize: '0.9rem', color: '#cbd5e1' }}>{t('dashboard.new_pass')}</label>
                                 <input
                                     type="password"
                                     value={passwords.newPassword}
@@ -174,7 +184,7 @@ const Dashboard = () => {
                                 />
                             </div>
                             <div style={{ marginBottom: '2rem' }}>
-                                <label style={{ display: 'block', marginBottom: '8px', fontSize: '0.9rem', color: '#cbd5e1' }}>Confirm New Password</label>
+                                <label style={{ display: 'block', marginBottom: '8px', fontSize: '0.9rem', color: '#cbd5e1' }}>{t('dashboard.confirm_pass')}</label>
                                 <input
                                     type="password"
                                     value={passwords.confirmPassword}
@@ -183,18 +193,126 @@ const Dashboard = () => {
                                 />
                             </div>
                             <button type="submit" className="btn-primary" disabled={loading} style={{ width: 'auto', padding: '12px 24px' }}>
-                                {loading ? 'Updating...' : <><Key size={18} /> Update Password</>}
+                                {loading ? t('dashboard.updating') : <><Key size={18} /> {t('dashboard.update_pass')}</>}
                             </button>
                         </form>
+                    </motion.div>
+                );
+            case 'Assessment':
+                if (assessmentStep === 'prompt') {
+                    return (
+                        <motion.div 
+                            initial={{ opacity: 0, scale: 0.9 }} 
+                            animate={{ opacity: 1, scale: 1 }} 
+                            style={{ 
+                                padding: '5rem 4rem', 
+                                maxWidth: '800px', 
+                                margin: '2rem auto', 
+                                textAlign: 'center',
+                                borderRadius: '48px',
+                                background: 'rgba(30, 41, 59, 0.4)',
+                                backdropFilter: 'blur(20px)',
+                                border: '1px solid rgba(255, 255, 255, 0.05)',
+                                boxShadow: '0 40px 100px -20px rgba(0, 0, 0, 0.5)'
+                            }}
+                        >
+                            <motion.div 
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                transition={{ type: 'spring', damping: 10, stiffness: 100 }}
+                                style={{ width: '100px', height: '100px', background: 'var(--gradient)', borderRadius: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 2.5rem', color: 'white', boxShadow: '0 15px 30px -5px rgba(79, 70, 229, 0.4)' }}
+                            >
+                                <ClipboardCheck size={48} />
+                            </motion.div>
+                            
+                            <h2 style={{ fontSize: '3rem', color: 'white', marginBottom: '1.25rem', fontWeight: 900, letterSpacing: '-0.025em' }}>
+                                {t('dashboard.clinical_data_prompt')}
+                            </h2>
+                            <p style={{ color: 'var(--text-muted)', fontSize: '1.25rem', marginBottom: '4rem', maxWidth: '500px', margin: '0 auto 4rem', fontWeight: 500, lineHeight: 1.6 }}>
+                                {t('dashboard.assessment_type_sub')}
+                            </p>
+                            
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
+                                <motion.button 
+                                    whileHover={{ scale: 1.05, translateY: -8 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    onClick={() => setAssessmentStep('advanced')}
+                                    style={{ 
+                                        padding: '3rem 2rem', 
+                                        borderRadius: '40px', 
+                                        border: '1px solid rgba(255,255,255,0.05)', 
+                                        background: 'rgba(15, 23, 42, 0.3)',
+                                        cursor: 'pointer',
+                                        transition: 'all 0.4s',
+                                        textAlign: 'center',
+                                        boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
+                                    }}
+                                    onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#3b82f6'; e.currentTarget.style.background = 'rgba(59, 130, 246, 0.05)'; }}
+                                    onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.05)'; e.currentTarget.style.background = 'rgba(15, 23, 42, 0.3)'; }}
+                                >
+                                    <div style={{ color: '#3b82f6', marginBottom: '1.5rem', display: 'flex', justifyContent: 'center' }}><CheckCircle2 size={32} /></div>
+                                    <h4 style={{ color: 'white', marginBottom: '0.75rem', fontSize: '1.4rem', fontWeight: 800 }}>{t('dashboard.yes_clinical')}</h4>
+                                    <p style={{ color: 'var(--text-muted)', fontSize: '1rem', fontWeight: 600, lineHeight: 1.4 }}>{t('dashboard.full_model')}</p>
+                                </motion.button>
+                                
+                                <motion.button 
+                                    whileHover={{ scale: 1.05, translateY: -8 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    onClick={() => setAssessmentStep('basic')}
+                                    style={{ 
+                                        padding: '3rem 2rem', 
+                                        borderRadius: '40px', 
+                                        border: '1px solid rgba(255,255,255,0.05)', 
+                                        background: 'rgba(15, 23, 42, 0.3)',
+                                        cursor: 'pointer',
+                                        transition: 'all 0.4s',
+                                        textAlign: 'center',
+                                        boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
+                                    }}
+                                    onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#6366f1'; e.currentTarget.style.background = 'rgba(99, 102, 241, 0.05)'; }}
+                                    onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.05)'; e.currentTarget.style.background = 'rgba(15, 23, 42, 0.3)'; }}
+                                >
+                                    <div style={{ color: '#6366f1', marginBottom: '1.5rem', display: 'flex', justifyContent: 'center' }}><Activity size={32} /></div>
+                                    <h4 style={{ color: 'white', marginBottom: '0.75rem', fontSize: '1.4rem', fontWeight: 800 }}>{t('dashboard.no_clinical')}</h4>
+                                    <p style={{ color: 'var(--text-muted)', fontSize: '1rem', fontWeight: 600, lineHeight: 1.4 }}>{t('dashboard.quick_behavioral')}</p>
+                                </motion.button>
+                            </div>
+                        </motion.div>
+                    );
+                }
+                return (
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                        <motion.button 
+                            whileHover={{ x: -4 }}
+                            onClick={() => setAssessmentStep('prompt')}
+                            style={{ 
+                                display: 'flex', 
+                                alignItems: 'center', 
+                                gap: '10px', 
+                                color: '#94a3b8', 
+                                background: 'white', 
+                                padding: '12px 24px', 
+                                borderRadius: '16px', 
+                                marginBottom: '2.5rem',
+                                border: '1px solid #f1f5f9',
+                                cursor: 'pointer',
+                                fontWeight: 700,
+                                fontSize: '0.9rem',
+                                boxShadow: '0 4px 12px rgba(0,0,0,0.02)'
+                            }}
+                        >
+                            <ArrowLeft size={18} /> {t('dashboard.back_to_selection')}
+                        </motion.button>
+                        {assessmentStep === 'basic' ? <BasicScreeningForm /> : <AdvancedScreeningForm />}
                     </motion.div>
                 );
             default:
                 return (
                     <>
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2rem' }}>
-                            <StatCard title="Total Assessments" value="0" change="+0%" color="#4f46e5" />
-                            <StatCard title="Positive Traits" value="0" change="0" color="#ef4444" />
-                            <StatCard title="Accuracy Rate" value="98.2%" change="+2.4%" color="#10b981" />
+                            <StatCard title={t('dashboard.total_assessments')} value="0" change="+0%" color="#4f46e5" />
+                            <StatCard title={t('dashboard.positive_traits')} value="0" change="0" color="#ef4444" />
+                            <StatCard title={t('dashboard.accuracy_rate')} value="98.2%" change="+2.4%" color="#10b981" />
                         </div>
 
                         <motion.div
@@ -204,11 +322,11 @@ const Dashboard = () => {
                             style={{ marginTop: '3rem', padding: '4rem', textAlign: 'center' }}
                         >
                             <Activity size={48} color="#4f46e5" style={{ marginBottom: '1rem' }} />
-                            <h3>Start Your First Assessment</h3>
+                            <h3>{t('dashboard.start_first')}</h3>
                             <p style={{ color: '#94a3b8', maxWidth: '400px', margin: '1rem auto 2rem' }}>
-                                Complete a quick 10-minute assessment to get insights into ASD traits using our AI model.
+                                {t('dashboard.start_first_sub')}
                             </p>
-                            <button className="btn-primary" style={{ margin: '0 auto' }}>Begin Now</button>
+                            <button className="btn-primary" style={{ margin: '0 auto' }}>{t('dashboard.begin_now')}</button>
                         </motion.div>
                     </>
                 );
@@ -217,35 +335,62 @@ const Dashboard = () => {
 
     return (
         <div style={{ display: 'flex', minHeight: '100vh' }}>
-            <aside style={{ width: '280px', borderRight: '1px solid #1e293b', padding: '2rem', display: 'flex', flexDirection: 'column' }}>
-                <div style={{ fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '3rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <Activity color="#4f46e5" /> ASD Dashboard
+            <aside style={{ width: '280px', borderRight: '1px solid #1e293b', padding: '2rem', display: 'flex', flexDirection: 'column', background: '#0f172a' }}>
+                <div style={{ fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '3rem', display: 'flex', alignItems: 'center', gap: '8px', color: 'white' }}>
+                    <Activity color="#4f46e5" /> {t('dashboard.title')}
                 </div>
 
                 <nav style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                    <SidebarLink icon={<Layout size={20} />} label="Overview" active={activeTab === 'Overview'} onClick={() => { setActiveTab('Overview'); setStatus({ type: '', msg: '' }); }} />
-                    <SidebarLink icon={<Activity size={20} />} label="New Assessment" active={activeTab === 'Assessment'} onClick={() => { setActiveTab('Overview'); setStatus({ type: '', msg: '' }); }} />
-                    <SidebarLink icon={<User size={20} />} label="Profile" active={activeTab === 'Profile'} onClick={() => { setActiveTab('Profile'); setStatus({ type: '', msg: '' }); }} />
-                    <SidebarLink icon={<Settings size={20} />} label="Settings" active={activeTab === 'Settings'} onClick={() => { setActiveTab('Settings'); setStatus({ type: '', msg: '' }); }} />
+                    <SidebarLink icon={<Layout size={20} />} label={t('dashboard.tab_overview')} active={activeTab === 'Overview'} onClick={() => { setActiveTab('Overview'); setStatus({ type: '', msg: '' }); }} />
+                    <SidebarLink icon={<Activity size={20} />} label={t('dashboard.tab_assessment')} active={activeTab === 'Assessment'} onClick={() => { setActiveTab('Assessment'); setAssessmentStep('prompt'); setStatus({ type: '', msg: '' }); }} />
+                    <SidebarLink icon={<User size={20} />} label={t('dashboard.tab_profile')} active={activeTab === 'Profile'} onClick={() => { setActiveTab('Profile'); setStatus({ type: '', msg: '' }); }} />
+                    <SidebarLink icon={<Settings size={20} />} label={t('dashboard.tab_settings')} active={activeTab === 'Settings'} onClick={() => { setActiveTab('Settings'); setStatus({ type: '', msg: '' }); }} />
                 </nav>
 
-                <button
-                    onClick={() => {
-                        logout();
-                        navigate('/');
-                    }}
-                    style={{ display: 'flex', alignItems: 'center', gap: '12px', color: '#94a3b8', background: 'transparent', border: 'none', padding: '12px', borderRadius: '12px', cursor: 'pointer' }}
-                >
-                    <LogOut size={20} /> Logout
-                </button>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: 'auto' }}>
+                    <button
+                        onClick={toggleLanguage}
+                        style={{ 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            gap: '12px', 
+                            color: '#94a3b8', 
+                            background: 'rgba(255, 255, 255, 0.05)', 
+                            border: '1px solid rgba(255, 255, 255, 0.1)', 
+                            padding: '12px', 
+                            borderRadius: '12px', 
+                            cursor: 'pointer',
+                            transition: 'all 0.2s',
+                            fontWeight: '600',
+                            justifyContent: 'center'
+                        }}
+                    >
+                        <Languages size={20} />
+                        {i18n.language === 'en' ? 'සිංහල' : 'English'}
+                    </button>
+
+                    <button
+                        onClick={() => {
+                            logout();
+                            navigate('/');
+                        }}
+                        style={{ display: 'flex', alignItems: 'center', gap: '12px', color: '#ef4444', background: 'transparent', border: 'none', padding: '12px', borderRadius: '12px', cursor: 'pointer', fontWeight: '600' }}
+                    >
+                        <LogOut size={20} /> {t('navbar.logout')}
+                    </button>
+                </div>
             </aside>
 
             <main style={{ flex: 1, padding: '3rem', backgroundColor: '#0f172a' }}>
                 <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '3rem' }}>
                     <div>
-                        <h1 style={{ fontSize: '2rem' }}>{activeTab === 'Overview' ? `Welcome back, ${user?.firstName} 👋` : activeTab}</h1>
+                        <h1 style={{ fontSize: '2rem' }}>
+                            {activeTab === 'Overview' 
+                                ? `${t('dashboard.welcome_back')}, ${user?.firstName} 👋` 
+                                : t(`dashboard.tab_${activeTab.toLowerCase()}`)}
+                        </h1>
                         <p style={{ color: '#94a3b8' }}>
-                            {activeTab === 'Overview' ? "Here's what's happening with your assessments today." : `Manage your ${activeTab.toLowerCase()} settings here.`}
+                            {activeTab === 'Overview' ? t('dashboard.overview_msg') : t('dashboard.manage_settings', { tab: activeTab.toLowerCase() })}
                         </p>
                     </div>
                     <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>

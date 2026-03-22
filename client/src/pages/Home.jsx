@@ -1,30 +1,81 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Brain, Shield, BarChart, Heart, ChevronRight } from 'lucide-react';
+import { Brain, Shield, BarChart, Heart, ChevronRight, Languages } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import BrainLogo from '../components/BrainLogo';
 import GuideModal from '../components/GuideModal';
+import SLflag from '../assets/SLflag.png';
+import ASDchild from '../assets/ASDchild.png';
 
 const Home = () => {
     const [isGuideOpen, setIsGuideOpen] = React.useState(false);
+    const { t, i18n } = useTranslation();
+
+    const toggleLanguage = () => {
+        const newLang = i18n.language === 'en' ? 'si' : 'en';
+        i18n.changeLanguage(newLang);
+    };
 
     return (
-        <div className="home-container">
+        <div className="home-container" style={{ position: 'relative', background: '#0f172a' }}>
+            {/* Background Overlay Image */}
+            <div
+                style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '1000px',
+                    backgroundImage: `url(${ASDchild})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'top center',
+                    backgroundRepeat: 'no-repeat',
+                    opacity: 0.1,
+                    zIndex: 0,
+                    pointerEvents: 'none',
+                    maskImage: 'linear-gradient(to bottom, black, transparent)',
+                    WebkitMaskImage: 'linear-gradient(to bottom, black, transparent)'
+                }}
+            />
             {/* Navbar */}
-            <nav className="navbar" style={{ padding: '2rem 4rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div className="logo" style={{ fontSize: '1.5rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <nav className="navbar" style={{ position: 'relative', zIndex: 10, padding: '2rem 4rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div className="logo" style={{ fontSize: '1.5rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '12px' }}>
                     <Brain className="text-primary" size={32} color="#4f46e5" />
                     <span>ASD <span style={{ color: '#4f46e5' }}>Sense</span></span>
+                    <img src={SLflag} alt="SL Flag" style={{ width: '80px', height: 'auto', borderRadius: '4px' }} />
                 </div>
-                <div className="nav-links" style={{ display: 'flex', gap: '2rem' }}>
-                    <Link to="/login" className="btn-primary" style={{ color: 'white', textDecoration: 'none' }}>Login</Link>
-                    <Link to="/register" className="btn-primary" style={{ textDecoration: 'none' }}>Get Started</Link>
+                <div className="nav-links" style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
+                    <button 
+                        onClick={toggleLanguage}
+                        style={{
+                            background: 'rgba(255, 255, 255, 0.05)',
+                            border: '1px solid rgba(255, 255, 255, 0.1)',
+                            color: 'white',
+                            padding: '8px 16px',
+                            borderRadius: '20px',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            fontSize: '0.9rem',
+                            fontWeight: 500,
+                            transition: 'all 0.3s ease'
+                        }}
+                        onMouseEnter={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.1)'}
+                        onMouseLeave={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.05)'}
+                    >
+                        <Languages size={18} color="#4f46e5" />
+                        {i18n.language === 'en' ? 'සිංහල' : 'English'}
+                    </button>
+                    <Link to="/login" className="btn-primary" style={{ color: 'white', textDecoration: 'none' }}>{t('navbar.login')}</Link>
+                    <Link to="/register" className="btn-primary" style={{ textDecoration: 'none' }}>{t('navbar.get_started')}</Link>
                 </div>
             </nav>
 
             {/* Hero Section */}
-            <header className="container" style={{ paddingTop: '5rem', paddingBottom: '6rem', textAlign: 'center' }}>
-                <div style={{ marginBottom: '1rem', display: 'flex', justifyContent: 'center' }}>
+            <header className="container" style={{ position: 'relative', zIndex: 1, paddingTop: '1rem', paddingBottom: '1rem', textAlign: 'center' }}>
+                <div style={{ marginBottom: '0.5rem', display: 'flex', justifyContent: 'center' }}>
                     <motion.div
                         animate={{ y: [0, -15, 0] }}
                         transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
@@ -37,25 +88,24 @@ const Home = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8 }}
                 >
-                    <h1 style={{ fontSize: '4.5rem', marginBottom: '1.5rem', lineHeight: 1.1 }}>
-                        Empowering Families Through <br />
+                    <h1 style={{ fontSize: i18n.language === 'si' ? '3.5rem' : '4.5rem', marginBottom: '1.5rem', lineHeight: 1.2 }}>
+                        {t('hero.title')} <br />
                         <span style={{ background: 'linear-gradient(90deg, #4f46e5, #0ea5e9)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                            AI-Driven ASD Detection
+                            {t('hero.subtitle')}
                         </span>
                     </h1>
-                    <p style={{ fontSize: '1.25rem', color: '#94a3b8', maxWidth: '700px', margin: '0 auto 3rem' }}>
-                        A state-of-the-art diagnostic companion using advanced SVM models to provide early
-                        insights into Autism Spectrum Disorder with clinical-grade accuracy.
+                    <p style={{ fontSize: '1.25rem', color: '#94a3b8', maxWidth: '700px', margin: '0 auto 3rem', lineHeight: 1.6 }}>
+                        {t('hero.description')}
                     </p>
                     <div style={{ display: 'flex', justifyContent: 'center', gap: '1.5rem' }}>
                         <Link to="/register" className="btn-primary" style={{ padding: '16px 32px', fontSize: '1.1rem', textDecoration: 'none' }}>
-                            Start Assessment <ChevronRight size={20} />
+                            {t('hero.start_assessment')} <ChevronRight size={20} />
                         </Link>
                         <button
                             onClick={() => setIsGuideOpen(true)}
                             className="btn-secondary"
                             style={{ background: 'transparent', border: '1px solid #334155', color: 'white', padding: '16px 32px', borderRadius: '12px', fontWeight: 600, cursor: 'pointer' }}>
-                            Learn How It Works
+                            {t('hero.how_it_works')}
                         </button>
                     </div>
                 </motion.div>
@@ -67,24 +117,24 @@ const Home = () => {
             <section style={{ background: '#1e293b', padding: '100px 0' }}>
                 <div className="container">
                     <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-                        <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>Why Choose ASD Sense?</h2>
-                        <p style={{ color: '#94a3b8' }}>Advanced technology meets compassionate care.</p>
+                        <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>{t('features.title')}</h2>
+                        <p style={{ color: '#94a3b8' }}>{t('features.subtitle')}</p>
                     </div>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem' }}>
                         <FeatureCard
                             icon={<Shield size={24} color="#4f46e5" />}
-                            title="Secure & Private"
-                            desc="Your data is encrypted and handled with the highest medical standards."
+                            title={t('features.secure.title')}
+                            desc={t('features.secure.desc')}
                         />
                         <FeatureCard
                             icon={<BarChart size={24} color="#0ea5e9" />}
-                            title="SVM Intelligence"
-                            desc="Powered by a Kaggle-trained SVM model for reliable and consistent results."
+                            title={t('features.intelligence.title')}
+                            desc={t('features.intelligence.desc')}
                         />
                         <FeatureCard
                             icon={<Heart size={24} color="#f472b6" />}
-                            title="Parent Focused"
-                            desc="Designed specifically for simple, intuitive use by parents and caregivers."
+                            title={t('features.parent_focused.title')}
+                            desc={t('features.parent_focused.desc')}
                         />
                     </div>
                 </div>
@@ -92,7 +142,7 @@ const Home = () => {
 
             {/* Footer */}
             <footer style={{ padding: '4rem 0', textAlign: 'center', borderTop: '1px solid #1e293b' }}>
-                <p style={{ color: '#64748b' }}>&copy; 2026 ASD Sense AI. All rights reserved.</p>
+                <p style={{ color: '#64748b' }}>{t('footer.rights')}</p>
             </footer>
         </div>
     );

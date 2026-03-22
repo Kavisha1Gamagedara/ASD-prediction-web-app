@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Mail, Lock, LogIn, AlertCircle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import ASDLoginImg from '../assets/autism.jpg';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -11,6 +13,7 @@ const Login = () => {
     const [loading, setLoading] = useState(false);
     const { login } = useAuth();
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -27,16 +30,31 @@ const Login = () => {
     };
 
     return (
-        <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
+        <div style={{ position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem', overflow: 'hidden' }}>
+            {/* Background Image with reduced opacity */}
+            <div
+                style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    backgroundImage: `linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.7)), url(${ASDLoginImg})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    opacity: 0.6,
+                    zIndex: -1
+                }}
+            />
             <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 className="glass-card"
-                style={{ width: '100%', maxWidth: '450px', padding: '3rem' }}
+                style={{ width: '100%', maxWidth: '450px', padding: '3rem', background: 'rgba(30, 41, 59, 0.15)', border: '1px solid rgba(255, 255, 255, 0.1)' }}
             >
                 <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
-                    <h2 style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>Welcome Back</h2>
-                    <p style={{ color: '#94a3b8' }}>Login to access your dashboard</p>
+                    <h2 style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>{t('login.title')}</h2>
+                    <p style={{ color: '#94a3b8' }}>{t('login.subtitle')}</p>
                 </div>
 
                 {error && (
@@ -47,7 +65,7 @@ const Login = () => {
 
                 <form onSubmit={handleSubmit}>
                     <div style={{ marginBottom: '1.5rem' }}>
-                        <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: '#cbd5e1' }}>Email Address</label>
+                        <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: '#cbd5e1' }}>{t('login.email')}</label>
                         <div style={{ position: 'relative' }}>
                             <Mail style={{ position: 'absolute', left: '12px', top: '14px', color: '#64748b' }} size={18} />
                             <input
@@ -62,7 +80,7 @@ const Login = () => {
                     </div>
 
                     <div style={{ marginBottom: '2rem' }}>
-                        <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: '#cbd5e1' }}>Password</label>
+                        <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: '#cbd5e1' }}>{t('login.password')}</label>
                         <div style={{ position: 'relative' }}>
                             <Lock style={{ position: 'absolute', left: '12px', top: '14px', color: '#64748b' }} size={18} />
                             <input
@@ -82,12 +100,12 @@ const Login = () => {
                         style={{ width: '100%', padding: '14px' }}
                         disabled={loading}
                     >
-                        {loading ? 'Logging in...' : <><LogIn size={20} /> Login</>}
+                        {loading ? t('login.logging_in') : <><LogIn size={20} /> {t('login.btn')}</>}
                     </button>
                 </form>
 
                 <p style={{ textAlign: 'center', marginTop: '2rem', color: '#94a3b8' }}>
-                    Don't have an account? <Link to="/register" style={{ color: '#4f46e5', textDecoration: 'none', fontWeight: 600 }}>Sign up</Link>
+                    {t('login.no_account')} <Link to="/register" style={{ color: '#4f46e5', textDecoration: 'none', fontWeight: 600 }}>{t('login.signup')}</Link>
                 </p>
             </motion.div>
         </div>
