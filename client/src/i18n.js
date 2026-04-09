@@ -150,13 +150,13 @@ const resources = {
           "familyASD": "Family ASD?"
         },
         "ethnicities": {
-          "0": "Asian",
-          "1": "Middle Eastern",
-          "2": "White European",
-          "3": "Black",
-          "4": "South Asian",
-          "5": "Hispanic",
-          "6": "Others"
+          "0": "Sinhalese",
+          "1": "Tamil",
+          "2": "Moor",
+          "3": "Burgher",
+          "4": "Malay",
+          "5": "Vedda",
+          "6": "Other"
         },
         "relationships": {
           "Parent": "Parent",
@@ -314,12 +314,12 @@ const resources = {
           "familyASD": "පවුලේ ASD ඉතිහාසයක් තිබේද?"
         },
         "ethnicities": {
-          "0": "ආසියාතික",
-          "1": "මැද පෙරදිග",
-          "2": "සුදු යුරෝපීය",
-          "3": "කළු",
-          "4": "දකුණු ආසියාතික",
-          "5": "හිස්පැනික්",
+          "0": "සිංහල",
+          "1": "දෙමළ",
+          "2": "මුස්ලිම්",
+          "3": "බර්ගර්",
+          "4": "මැලේ",
+          "5": "වැදි",
           "6": "වෙනත්"
         },
         "relationships": {
