@@ -32,7 +32,7 @@ const Home = () => {
                     backgroundSize: 'cover',
                     backgroundPosition: 'top center',
                     backgroundRepeat: 'no-repeat',
-                    opacity: 0.1,
+                    opacity: 'var(--bg-img-opacity)',
                     zIndex: 0,
                     pointerEvents: 'none',
                     maskImage: 'linear-gradient(to bottom, black, transparent)',
@@ -96,7 +96,7 @@ const Home = () => {
                             {t('hero.subtitle')}
                         </span>
                     </h1>
-                    <p style={{ fontSize: '1.25rem', color: '#94a3b8', maxWidth: '700px', margin: '0 auto 3rem', lineHeight: 1.6 }}>
+                    <p style={{ fontSize: '1.25rem', color: 'var(--text-muted)', maxWidth: '700px', margin: '0 auto 3rem', lineHeight: 1.6 }}>
                         {t('hero.description')}
                     </p>
                     <div style={{ display: 'flex', justifyContent: 'center', gap: '1.5rem' }}>
@@ -106,7 +106,7 @@ const Home = () => {
                         <button
                             onClick={() => setIsGuideOpen(true)}
                             className="btn-secondary"
-                            style={{ background: 'transparent', border: '1px solid #334155', color: 'white', padding: '16px 32px', borderRadius: '12px', fontWeight: 600, cursor: 'pointer' }}>
+                            style={{ background: 'transparent', border: '1px solid var(--glass-border)', color: 'var(--text-main)', padding: '16px 32px', borderRadius: '12px', fontWeight: 600, cursor: 'pointer' }}>
                             {t('hero.how_it_works')}
                         </button>
                     </div>
@@ -120,7 +120,7 @@ const Home = () => {
                 <div className="container">
                     <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
                         <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>{t('features.title')}</h2>
-                        <p style={{ color: '#94a3b8' }}>{t('features.subtitle')}</p>
+                        <p style={{ color: 'var(--text-muted)' }}>{t('features.subtitle')}</p>
                     </div>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem' }}>
                         <FeatureCard
@@ -160,7 +160,7 @@ const FeatureCard = ({ icon, title, desc }) => (
             {icon}
         </div>
         <h3 style={{ marginBottom: '1rem' }}>{title}</h3>
-        <p style={{ color: '#94a3b8', fontSize: '0.95rem' }}>{desc}</p>
+        <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>{desc}</p>
     </motion.div>
 );
 
