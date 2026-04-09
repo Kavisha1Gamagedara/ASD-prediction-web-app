@@ -5,6 +5,7 @@ import { Brain, Shield, BarChart, Heart, ChevronRight, Languages } from 'lucide-
 import { useTranslation } from 'react-i18next';
 import BrainLogo from '../components/BrainLogo';
 import GuideModal from '../components/GuideModal';
+import ThemeToggle from '../components/ThemeToggle';
 import SLflag from '../assets/SLflag.png';
 import ASDchild from '../assets/ASDchild.png';
 
@@ -18,7 +19,7 @@ const Home = () => {
     };
 
     return (
-        <div className="home-container" style={{ position: 'relative', background: '#0f172a' }}>
+        <div className="home-container" style={{ position: 'relative', background: 'var(--bg-dark)' }}>
             {/* Background Overlay Image */}
             <div
                 style={{
@@ -49,9 +50,9 @@ const Home = () => {
                     <button 
                         onClick={toggleLanguage}
                         style={{
-                            background: 'rgba(255, 255, 255, 0.05)',
-                            border: '1px solid rgba(255, 255, 255, 0.1)',
-                            color: 'white',
+                            background: 'var(--glass)',
+                            border: '1px solid var(--glass-border)',
+                            color: 'var(--text-main)',
                             padding: '8px 16px',
                             borderRadius: '20px',
                             cursor: 'pointer',
@@ -62,12 +63,13 @@ const Home = () => {
                             fontWeight: 500,
                             transition: 'all 0.3s ease'
                         }}
-                        onMouseEnter={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.1)'}
-                        onMouseLeave={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.05)'}
+                        onMouseEnter={(e) => e.target.style.background = 'var(--glass)'}
+                        onMouseLeave={(e) => e.target.style.background = 'var(--glass)'}
                     >
                         <Languages size={18} color="#4f46e5" />
                         {i18n.language === 'en' ? 'සිංහල' : 'English'}
                     </button>
+                    <ThemeToggle />
                     <Link to="/login" className="btn-primary" style={{ color: 'white', textDecoration: 'none' }}>{t('navbar.login')}</Link>
                     <Link to="/register" className="btn-primary" style={{ textDecoration: 'none' }}>{t('navbar.get_started')}</Link>
                 </div>
@@ -114,7 +116,7 @@ const Home = () => {
             </header>
 
             {/* Features */}
-            <section style={{ background: '#1e293b', padding: '100px 0' }}>
+            <section style={{ background: 'var(--card-dark)', padding: '100px 0' }}>
                 <div className="container">
                     <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
                         <h2 style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>{t('features.title')}</h2>
@@ -141,7 +143,7 @@ const Home = () => {
             </section>
 
             {/* Footer */}
-            <footer style={{ padding: '4rem 0', textAlign: 'center', borderTop: '1px solid #1e293b' }}>
+            <footer style={{ padding: '4rem 0', textAlign: 'center', borderTop: '1px solid var(--glass-border)' }}>
                 <p style={{ color: '#64748b' }}>{t('footer.rights')}</p>
             </footer>
         </div>

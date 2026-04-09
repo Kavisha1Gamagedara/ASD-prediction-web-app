@@ -27,28 +27,28 @@ const BasicScreeningForm = () => {
         container: { padding: '2rem 0', maxWidth: '800px', margin: '0 auto' },
         header: { textAlign: 'center', marginBottom: '3rem' },
         iconBox: { width: '80px', height: '80px', background: 'var(--gradient)', borderRadius: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.5rem', boxShadow: '0 20px 40px -10px rgba(79, 70, 229, 0.4)' },
-        title: { fontSize: '2.5rem', marginBottom: '0.75rem', color: 'white' },
+        title: { fontSize: '2.5rem', marginBottom: '0.75rem', color: 'var(--text-main)' },
         subtitle: { color: 'var(--text-muted)', fontSize: '1.1rem' },
         progressContainer: { 
             position: 'sticky', top: '20px', zIndex: 100,
             padding: '1.5rem', borderRadius: '20px', 
-            background: 'rgba(30, 41, 59, 0.8)', backdropFilter: 'blur(20px)',
-            border: '1px solid rgba(255, 255, 255, 0.1)', marginBottom: '3rem',
+            background: 'var(--glass)', backdropFilter: 'blur(20px)',
+            border: '1px solid var(--glass-border)', marginBottom: '3rem',
             boxShadow: '0 20px 50px rgba(0,0,0,0.3)'
         },
-        progressBar: { height: '8px', background: 'rgba(255,255,255,0.05)', borderRadius: '4px', overflow: 'hidden', marginTop: '12px' },
+        progressBar: { height: '8px', background: 'var(--glass-border)', borderRadius: '4px', overflow: 'hidden', marginTop: '12px' },
         progressFill: { height: '100%', background: 'var(--gradient)', transition: 'width 0.5s cubic-bezier(0.4, 0, 0.2, 1)' },
         card: { 
             padding: '2.5rem', borderRadius: '32px', 
-            background: 'rgba(30, 41, 59, 0.4)', border: '1px solid rgba(255,255,255,0.05)',
+            background: 'var(--glass)', border: '1px solid var(--glass-border)',
             marginBottom: '1.5rem', position: 'relative', overflow: 'hidden'
         },
-        qNum: { width: '40px', height: '40px', background: 'rgba(255,255,255,0.05)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--primary)', marginBottom: '1.5rem' },
-        qText: { fontSize: '1.25rem', fontWeight: '600', marginBottom: '2rem', color: 'white', lineHeight: '1.4' },
+        qNum: { width: '40px', height: '40px', background: 'var(--input-bg)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--primary)', marginBottom: '1.5rem' },
+        qText: { fontSize: '1.25rem', fontWeight: '600', marginBottom: '2rem', color: 'var(--text-main)', lineHeight: '1.4' },
         btnGroup: { display: 'flex', gap: '1rem' },
         toggleBtn: (active) => ({
-            flex: 1, padding: '1.25rem', borderRadius: '16px', border: active ? 'none' : '1px solid rgba(255,255,255,0.1)',
-            background: active ? 'var(--gradient)' : 'rgba(15, 23, 42, 0.3)',
+            flex: 1, padding: '1.25rem', borderRadius: '16px', border: active ? 'none' : '1px solid var(--glass-border)',
+            background: active ? 'var(--gradient)' : 'var(--input-bg)',
             color: active ? 'white' : 'var(--text-muted)',
             fontWeight: 'bold', fontSize: '1.1rem', cursor: 'pointer',
             transition: 'all 0.3s ease',
@@ -56,8 +56,8 @@ const BasicScreeningForm = () => {
         }),
         submitBtn: (disabled) => ({
             width: '100%', padding: '1.5rem', borderRadius: '24px', border: 'none',
-            background: disabled ? 'rgba(255,255,255,0.05)' : 'var(--gradient)',
-            color: disabled ? 'rgba(255,255,255,0.2)' : 'white',
+            background: disabled ? 'var(--glass)' : 'var(--gradient)',
+            color: disabled ? 'var(--text-muted)' : 'white',
             fontWeight: 'bold', fontSize: '1.25rem', cursor: disabled ? 'not-allowed' : 'pointer',
             marginTop: '4rem', boxShadow: disabled ? 'none' : '0 20px 40px -10px rgba(79, 70, 229, 0.5)',
             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px'
@@ -89,7 +89,7 @@ const BasicScreeningForm = () => {
 
             <motion.div style={styles.progressContainer}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontWeight: 'bold', fontSize: '0.9rem', color: 'white' }}>{t('screening.progress')}</span>
+                    <span style={{ fontWeight: 'bold', fontSize: '0.9rem', color: 'var(--text-main)' }}>{t('screening.progress')}</span>
                     <span style={{ fontWeight: 'bold', color: 'var(--primary)' }}>{completedCount}/{questions.length}</span>
                 </div>
                 <div style={styles.progressBar}>

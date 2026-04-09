@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import BasicScreeningForm from '../components/screening/BasicScreeningForm';
 import AdvancedScreeningForm from '../components/screening/AdvancedScreeningForm';
+import ThemeToggle from '../components/ThemeToggle';
 
 const Dashboard = () => {
     const { user, logout, updateUser } = useAuth();
@@ -210,9 +211,9 @@ const Dashboard = () => {
                                 margin: '2rem auto', 
                                 textAlign: 'center',
                                 borderRadius: '48px',
-                                background: 'rgba(30, 41, 59, 0.4)',
+                                background: 'var(--glass)',
                                 backdropFilter: 'blur(20px)',
-                                border: '1px solid rgba(255, 255, 255, 0.05)',
+                                border: '1px solid var(--glass-border)',
                                 boxShadow: '0 40px 100px -20px rgba(0, 0, 0, 0.5)'
                             }}
                         >
@@ -225,7 +226,7 @@ const Dashboard = () => {
                                 <ClipboardCheck size={48} />
                             </motion.div>
                             
-                            <h2 style={{ fontSize: '3rem', color: 'white', marginBottom: '1.25rem', fontWeight: 900, letterSpacing: '-0.025em' }}>
+                            <h2 style={{ fontSize: '3rem', color: 'var(--text-main)', marginBottom: '1.25rem', fontWeight: 900, letterSpacing: '-0.025em' }}>
                                 {t('dashboard.clinical_data_prompt')}
                             </h2>
                             <p style={{ color: 'var(--text-muted)', fontSize: '1.25rem', marginBottom: '4rem', maxWidth: '500px', margin: '0 auto 4rem', fontWeight: 500, lineHeight: 1.6 }}>
@@ -251,7 +252,7 @@ const Dashboard = () => {
                                     onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.05)'; e.currentTarget.style.background = 'rgba(15, 23, 42, 0.3)'; }}
                                 >
                                     <div style={{ color: '#3b82f6', marginBottom: '1.5rem', display: 'flex', justifyContent: 'center' }}><CheckCircle2 size={32} /></div>
-                                    <h4 style={{ color: 'white', marginBottom: '0.75rem', fontSize: '1.4rem', fontWeight: 800 }}>{t('dashboard.yes_clinical')}</h4>
+                                    <h4 style={{ color: 'var(--text-main)', marginBottom: '0.75rem', fontSize: '1.4rem', fontWeight: 800 }}>{t('dashboard.yes_clinical')}</h4>
                                     <p style={{ color: 'var(--text-muted)', fontSize: '1rem', fontWeight: 600, lineHeight: 1.4 }}>{t('dashboard.full_model')}</p>
                                 </motion.button>
                                 
@@ -273,7 +274,7 @@ const Dashboard = () => {
                                     onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.05)'; e.currentTarget.style.background = 'rgba(15, 23, 42, 0.3)'; }}
                                 >
                                     <div style={{ color: '#6366f1', marginBottom: '1.5rem', display: 'flex', justifyContent: 'center' }}><Activity size={32} /></div>
-                                    <h4 style={{ color: 'white', marginBottom: '0.75rem', fontSize: '1.4rem', fontWeight: 800 }}>{t('dashboard.no_clinical')}</h4>
+                                    <h4 style={{ color: 'var(--text-main)', marginBottom: '0.75rem', fontSize: '1.4rem', fontWeight: 800 }}>{t('dashboard.no_clinical')}</h4>
                                     <p style={{ color: 'var(--text-muted)', fontSize: '1rem', fontWeight: 600, lineHeight: 1.4 }}>{t('dashboard.quick_behavioral')}</p>
                                 </motion.button>
                             </div>
@@ -289,8 +290,8 @@ const Dashboard = () => {
                                 display: 'flex', 
                                 alignItems: 'center', 
                                 gap: '10px', 
-                                color: '#94a3b8', 
-                                background: 'white', 
+                                color: 'var(--text-muted)', 
+                                background: 'var(--glass)', 
                                 padding: '12px 24px', 
                                 borderRadius: '16px', 
                                 marginBottom: '2.5rem',
@@ -334,9 +335,9 @@ const Dashboard = () => {
     };
 
     return (
-        <div style={{ display: 'flex', minHeight: '100vh' }}>
-            <aside style={{ width: '280px', borderRight: '1px solid #1e293b', padding: '2rem', display: 'flex', flexDirection: 'column', background: '#0f172a' }}>
-                <div style={{ fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '3rem', display: 'flex', alignItems: 'center', gap: '8px', color: 'white' }}>
+        <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-dark)' }}>
+            <aside style={{ width: '280px', borderRight: '1px solid var(--glass-border)', padding: '2rem', display: 'flex', flexDirection: 'column', background: 'var(--bg-dark)' }}>
+                <div style={{ fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '3rem', display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-main)' }}>
                     <Activity color="#4f46e5" /> {t('dashboard.title')}
                 </div>
 
@@ -354,9 +355,9 @@ const Dashboard = () => {
                             display: 'flex', 
                             alignItems: 'center', 
                             gap: '12px', 
-                            color: '#94a3b8', 
-                            background: 'rgba(255, 255, 255, 0.05)', 
-                            border: '1px solid rgba(255, 255, 255, 0.1)', 
+                            color: 'var(--text-muted)', 
+                            background: 'var(--glass)', 
+                            border: '1px solid var(--glass-border)', 
                             padding: '12px', 
                             borderRadius: '12px', 
                             cursor: 'pointer',
@@ -381,7 +382,7 @@ const Dashboard = () => {
                 </div>
             </aside>
 
-            <main style={{ flex: 1, padding: '3rem', backgroundColor: '#0f172a' }}>
+            <main style={{ flex: 1, padding: '3rem', backgroundColor: 'var(--bg-dark)' }}>
                 <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '3rem' }}>
                     <div>
                         <h1 style={{ fontSize: '2rem' }}>
@@ -389,12 +390,13 @@ const Dashboard = () => {
                                 ? `${t('dashboard.welcome_back')}, ${user?.firstName} 👋` 
                                 : t(`dashboard.tab_${activeTab.toLowerCase()}`)}
                         </h1>
-                        <p style={{ color: '#94a3b8' }}>
+                        <p style={{ color: 'var(--text-muted)' }}>
                             {activeTab === 'Overview' ? t('dashboard.overview_msg') : t('dashboard.manage_settings', { tab: activeTab.toLowerCase() })}
                         </p>
                     </div>
                     <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                        <button className="glass-card" style={{ padding: '10px', borderRadius: '12px', border: '1px solid #334155', cursor: 'pointer' }}><Bell size={20} /></button>
+                        <ThemeToggle />
+                        <button className="glass-card" style={{ padding: '10px', borderRadius: '12px', border: '1px solid var(--glass-border)', color: 'var(--text-main)', cursor: 'pointer' }}><Bell size={20} /></button>
                         <div style={{ width: '40px', height: '40px', background: 'var(--gradient)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 'bold' }}>
                             {user?.firstName?.[0]}
                         </div>
@@ -418,7 +420,7 @@ const SidebarLink = ({ icon, label, active = false, onClick }) => (
             borderRadius: '12px',
             cursor: 'pointer',
             background: active ? 'rgba(79, 70, 229, 0.1)' : 'transparent',
-            color: active ? '#4f46e5' : '#94a3b8',
+            color: active ? '#4f46e5' : 'var(--text-muted)',
             fontWeight: active ? '600' : '400',
             transition: 'all 0.2s'
         }}
@@ -429,7 +431,7 @@ const SidebarLink = ({ icon, label, active = false, onClick }) => (
 
 const StatCard = ({ title, value, change, color }) => (
     <div className="glass-card" style={{ padding: '1.5rem' }}>
-        <p style={{ color: '#94a3b8', fontSize: '0.9rem', marginBottom: '0.5rem' }}>{title}</p>
+        <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginBottom: '0.5rem' }}>{title}</p>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
             <h2 style={{ fontSize: '2rem' }}>{value}</h2>
             <span style={{ color, fontSize: '0.8rem', fontWeight: 600 }}>{change}</span>

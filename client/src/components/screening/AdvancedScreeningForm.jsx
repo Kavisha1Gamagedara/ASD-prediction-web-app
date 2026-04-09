@@ -36,28 +36,28 @@ const AdvancedScreeningForm = () => {
         stepUnit: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem' },
         stepCircle: (active, completed) => ({
             width: '64px', height: '64px', borderRadius: '22px', display: 'flex', alignItems: 'center', justifyContent: 'center',
-            background: completed ? '#10b981' : active ? 'var(--gradient)' : 'rgba(255,255,255,0.05)',
-            color: active || completed ? 'white' : '#94a3b8',
+            background: completed ? '#10b981' : active ? 'var(--gradient)' : 'var(--glass)',
+            color: active || completed ? 'white' : 'var(--text-muted)',
             transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
             boxShadow: active ? '0 15px 30px -10px rgba(79, 70, 229, 0.5)' : 'none',
-            border: active ? 'none' : '1px solid rgba(255,255,255,0.05)'
+            border: active ? 'none' : '1px solid var(--glass-border)'
         }),
-        stepLine: (completed) => ({ width: '40px', height: '3px', background: completed ? '#10b981' : 'rgba(255,255,255,0.05)', borderRadius: '2px', alignSelf: 'center', margin: '0 -1rem 2rem' }),
+        stepLine: (completed) => ({ width: '40px', height: '3px', background: completed ? '#10b981' : 'var(--glass)', borderRadius: '2px', alignSelf: 'center', margin: '0 -1rem 2rem' }),
         card: { 
             padding: '3rem', borderRadius: '40px', 
-            background: 'rgba(30, 41, 59, 0.4)', border: '1px solid rgba(255,255,255,0.05)',
+            background: 'var(--glass)', border: '1px solid var(--glass-border)',
             boxShadow: '0 40px 100px -20px rgba(0,0,0,0.3)', marginBottom: '3rem'
         },
         label: { display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.9rem', fontWeight: 'bold', letterSpacing: '0.05em', color: 'var(--text-muted)', marginBottom: '1.25rem', textTransform: 'uppercase' },
         input: { 
-            width: '100%', padding: '1.25rem', borderRadius: '18px', background: 'rgba(15, 23, 42, 0.5)', 
-            border: '2px solid rgba(255, 255, 255, 0.05)', color: 'white', outline: 'none', transition: 'all 0.3s'
+            width: '100%', padding: '1.25rem', borderRadius: '18px', background: 'var(--input-bg)', 
+            border: '2px solid var(--glass-border)', color: 'var(--text-main)', outline: 'none', transition: 'all 0.3s'
         },
         selectBox: { position: 'relative', width: '100%' },
         btnGroup: { display: 'flex', gap: '1rem', width: '100%' },
         toggleBtn: (active) => ({
-            flex: 1, padding: '1.25rem', borderRadius: '18px', border: active ? 'none' : '1px solid rgba(255,255,255,0.1)',
-            background: active ? 'var(--gradient)' : 'rgba(15, 23, 42, 0.3)',
+            flex: 1, padding: '1.25rem', borderRadius: '18px', border: active ? 'none' : '1px solid var(--glass-border)',
+            background: active ? 'var(--gradient)' : 'var(--input-bg)',
             color: active ? 'white' : 'var(--text-muted)',
             fontWeight: 'bold', fontSize: '1.1rem', cursor: 'pointer',
             boxShadow: active ? '0 15px 30px -10px rgba(79, 70, 229, 0.4)' : 'none'
@@ -65,7 +65,7 @@ const AdvancedScreeningForm = () => {
         navBtn: (primary) => ({
             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px',
             padding: '1.5rem 3rem', borderRadius: '24px', border: 'none',
-            background: primary ? 'var(--gradient)' : 'rgba(255,255,255,0.05)',
+            background: primary ? 'var(--gradient)' : 'var(--glass)',
             color: 'white', fontWeight: 'bold', cursor: 'pointer', transition: 'all 0.3s',
             boxShadow: primary ? '0 20px 40px -10px rgba(79, 70, 229, 0.6)' : 'none',
             width: primary ? (step === 3 ? '100%' : 'auto') : 'auto',
@@ -170,7 +170,7 @@ const AdvancedScreeningForm = () => {
                                     { k:'familyASD', t: t('screening.clinical.familyASD') }
                                 ].map(f => (
                                     <div key={f.k} style={{ ...styles.card, padding: '2rem', marginBottom: 0 }}>
-                                        <p style={{ fontWeight: 'bold', marginBottom: '1.5rem', fontSize: '1.05rem' }}>{f.t}</p>
+                                        <p style={{ color: 'var(--text-main)', fontWeight: 'bold', marginBottom: '1.5rem', fontSize: '1.05rem' }}>{f.t}</p>
                                         <div style={styles.btnGroup}>
                                             <button type="button" onClick={()=>handleToggle(f.k, 1)} style={styles.toggleBtn(formData[f.k]===1)}>{t('common.yes')}</button>
                                             <button type="button" onClick={()=>handleToggle(f.k, 0)} style={styles.toggleBtn(formData[f.k]===0)}>{t('common.no')}</button>
@@ -193,8 +193,8 @@ const AdvancedScreeningForm = () => {
                                     const k = `A${i+1}`;
                                     return (
                                         <div key={k} style={{ ...styles.card, padding: '2rem', marginBottom: 0, display: 'flex', alignItems: 'center', gap: '2rem' }}>
-                                            <div style={{ width: '40px', height: '40px', background: 'rgba(255,255,255,0.05)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', color: 'var(--primary)', flexShrink: 0 }}>{i+1}</div>
-                                            <p style={{ flex: 1, fontWeight: 'bold', fontSize: '1.1rem' }}>{q}</p>
+                                            <div style={{ width: '40px', height: '40px', background: 'var(--input-bg)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', color: 'var(--primary)', flexShrink: 0 }}>{i+1}</div>
+                                            <p style={{ color: 'var(--text-main)', flex: 1, fontWeight: 'bold', fontSize: '1.1rem' }}>{q}</p>
                                             <div style={{ ...styles.btnGroup, width: '240px' }}>
                                                 <button type="button" onClick={()=>handleToggle(k, 1)} style={styles.toggleBtn(formData[k]===1)}>{t('common.yes')}</button>
                                                 <button type="button" onClick={()=>handleToggle(k, 0)} style={styles.toggleBtn(formData[k]===0)}>{t('common.no')}</button>
